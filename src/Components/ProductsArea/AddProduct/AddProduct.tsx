@@ -2,6 +2,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ProductModel from "../../../Models/ProductModel";
+import productsService from "../../../Services/ProductsService";
 import config from "../../../Utils/Config";
 import "./AddProduct.css";
 
@@ -14,16 +15,8 @@ function AddProduct(): JSX.Element {
     async function submit(product: ProductModel) {
         try {
 
-            // Convert out product to FormData:
-            const formData = new FormData();
-            formData.append("name", product.name);
-            formData.append("price", product.price.toString());
-            formData.append("stock", product.stock.toString());
-            formData.append("image", product.image.item(0));
-
-            // Post the new product to the server: 
-            const response = await axios.post<ProductModel>(config.productsUrl, formData);
-            const addedProduct = response.data;
+            await productsService.addNewProduct(product);
+            
             alert("Product has been added!");
 
             // Navigate back to all products: 

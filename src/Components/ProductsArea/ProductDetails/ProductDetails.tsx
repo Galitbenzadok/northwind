@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ProductModel from "../../../Models/ProductModel";
+import productsService from "../../../Services/ProductsService";
 import config from "../../../Utils/Config";
 import Loading from "../../SharedArea/Loading/Loading";
 import "./ProductDetails.css";
@@ -11,18 +12,16 @@ function ProductDetails(): JSX.Element {
 
     // Get Route Parameter: 
     const params = useParams();
-    const id = params.id;
+    const id = +params.id;
 
     // Create state for the product to display: 
     const [product, setProduct] = useState<ProductModel>();
 
-    // AJAX request that product: 
+    // AJAX request that product:
     useEffect(() => {
-
-        axios.get<ProductModel>(config.productsUrl + id)
-            .then(response => setProduct(response.data))
+        productsService.getOneProduct(id)
+            .then(product => setProduct(product))
             .catch(err => alert(err.message));
-
     }, []);
 
     const navigate = useNavigate();
@@ -35,7 +34,7 @@ function ProductDetails(): JSX.Element {
             if(!confirmDelete) return;
 
             // Delete this product: 
-            await axios.delete(config.productsUrl + id);
+            await productsService.deleteOneProduct(id);
             alert("Product Deleted");
 
             navigate("/products");
@@ -66,6 +65,7 @@ function ProductDetails(): JSX.Element {
 
                     {/* Navigate Back: */}
                     <button onClick={() => navigate(-1)}>Back</button>
+                    <button onClick={() => navigate("/products/edit/" + product.id)}>Edit</button>
                     <button onClick={deleteProduct}>Delete</button>
                 </>
             }

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Checkbox, createMuiTheme, FormControlLabel, TextField, ThemeProvider, Typography } from "@material-ui/core/";
+import { Button, ButtonGroup, Checkbox, createMuiTheme, FormControlLabel, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import { green, orange } from "@material-ui/core/colors";
 import { ContactMail, Send, Clear } from "@material-ui/icons";
 import "./ContactUs.css";
