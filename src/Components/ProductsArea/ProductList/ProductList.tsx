@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ProductModel from "../../../Models/ProductModel";
+import notify from "../../../Services/NotifyService";
 import productsService from "../../../Services/ProductsService";
 import Loading from "../../SharedArea/Loading/Loading";
 import ProductCard from "../ProductCard/ProductCard";
@@ -15,7 +16,7 @@ function ProductList(): JSX.Element {
     useEffect(() => {
         productsService.fetchProducts()
             .then(products => setProducts(products))
-            .catch(err => alert(err.message));
+            .catch(err => notify.error(err));
     }, []);
 
     return (

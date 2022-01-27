@@ -2,6 +2,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ProductModel from "../../../Models/ProductModel";
+import notify from "../../../Services/NotifyService";
 import productsService from "../../../Services/ProductsService";
 import config from "../../../Utils/Config";
 import "./AddProduct.css";
@@ -17,13 +18,13 @@ function AddProduct(): JSX.Element {
 
             await productsService.addNewProduct(product);
             
-            alert("Product has been added!");
+            notify.success("Product has been added!");
 
             // Navigate back to all products: 
             navigate("/products");
         }
         catch (err: any) {
-            alert(err.message);
+            notify.error(err);
         }
     }
 

@@ -12,7 +12,7 @@ function Header(): JSX.Element {
             {/* Auth Menu */}
             <AuthMenu />
 
-            <h1>Northwind Traders</h1>
+            <h1>Northwind Traders 🚀</h1>
         </div>
     );
 }

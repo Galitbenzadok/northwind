@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ProductModel from "../../../Models/ProductModel";
+import notify from "../../../Services/NotifyService";
 import productsService from "../../../Services/ProductsService";
 import config from "../../../Utils/Config";
 import Loading from "../../SharedArea/Loading/Loading";
@@ -21,7 +22,7 @@ function ProductDetails(): JSX.Element {
     useEffect(() => {
         productsService.getOneProduct(id)
             .then(product => setProduct(product))
-            .catch(err => alert(err.message));
+            .catch(err => notify.error(err));
     }, []);
 
     const navigate = useNavigate();
@@ -31,16 +32,16 @@ function ProductDetails(): JSX.Element {
 
             // Are you sure message: 
             const confirmDelete = window.confirm("Are you sure?");
-            if(!confirmDelete) return;
+            if (!confirmDelete) return;
 
             // Delete this product: 
             await productsService.deleteOneProduct(id);
-            alert("Product Deleted");
+            notify.success("Product deleted");
 
             navigate("/products");
         }
-        catch(err: any) {
-            alert(err.message);
+        catch (err: any) {
+            notify.error(err);
         }
     }
 
@@ -49,9 +50,9 @@ function ProductDetails(): JSX.Element {
 
             <h2>Product Details</h2>
 
-            { !product && <Loading /> }
+            {!product && <Loading />}
 
-            {product && 
+            {product &&
                 <>
                     <h3>Name: {product.name}</h3>
                     <h3>Price: {product.price}</h3>

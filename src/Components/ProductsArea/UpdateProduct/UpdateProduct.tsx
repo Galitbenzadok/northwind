@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductModel from "../../../Models/ProductModel";
+import notify from "../../../Services/NotifyService";
 import productsService from "../../../Services/ProductsService";
 import "./UpdateProduct.css";
 
@@ -21,7 +22,7 @@ function UpdateProduct(): JSX.Element {
                 setValue("price", product.price);
                 setValue("stock", product.stock);
             })
-            .catch(err => alert(err.message));
+            .catch(err => notify.error(err));
     }, []);
 
     async function submit(product: ProductModel) {
@@ -29,21 +30,21 @@ function UpdateProduct(): JSX.Element {
 
             product.id = id;
             await productsService.updateProduct(product);
-            
-            alert("Product has been updated!");
+
+            notify.success("Product updated.");
 
             // Navigate back to all products: 
             navigate("/products");
         }
         catch (err: any) {
-            alert(err.message);
+            notify.error(err);
         }
     }
 
     return (
         <div className="UpdateProduct Box">
 
-			<form onSubmit={handleSubmit(submit)}>
+            <form onSubmit={handleSubmit(submit)}>
 
                 <h2>Edit Product</h2>
 
